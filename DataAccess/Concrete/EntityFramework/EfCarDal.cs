@@ -44,17 +44,22 @@ namespace DataAccess.Concrete.EntityFramework
 
         public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
         {
-            throw new NotImplementedException();
-        }
-
-        public int GetById(Car entity)
-        {
-            throw new NotImplementedException();
+            using (ReCapProjectContext context = new ReCapProjectContext())
+            {
+                return filter == null
+                    ? context.Set<Car>().ToList()
+                    : context.Set<Car>().Where(filter).ToList();
+            }
         }
 
         public void Update(Car entity)
         {
-            throw new NotImplementedException();
+            using (ReCapProjectContext context = new ReCapProjectContext())
+            {
+                var updatedEntity = context.Entry(entity);
+                updatedEntity.State = EntityState.Modified;
+                context.SaveChanges();
+            }
         }
     }
 }
