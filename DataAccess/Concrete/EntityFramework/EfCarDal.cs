@@ -17,19 +17,19 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (ReCapProjectContext context = new ReCapProjectContext())
             {
-                var query = from ca in context.Car
-                            join b in context.Brand
-                            on ca.CarId equals b.BrandId
-                            join co in context.Color
-                            on ca.CarId equals co.ColorId
+                var query = from ca in context.Cars
+                            join b in context.Brands
+                            on ca.BrandId equals b.Id
+                            join co in context.Colors
+                            on ca.ColorId equals co.Id
                             select new CarDetailDto
                             {
-                                CarId = ca.CarId,
+                                Id = ca.Id,
                                 DailyPrice = ca.DailyPrice,
-                                BrandName = b.BrandName,
-                                ColorName = co.ColorName
+                                BrandName = b.BrandName.Trim(),
+                                ColorName = co.ColorName.Trim()
                             };
-
+                
                 return query.ToList();
 
             }

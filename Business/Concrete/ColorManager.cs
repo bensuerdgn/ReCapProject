@@ -6,9 +6,9 @@ using System.Text;
 
 namespace Business.Concrete
 {
-    public class BrandManager : IBrandService
+    public class ColorManager : IColorService
     {
-        public List<Brand> GetAll()
+        public List<Color> GetAll()
         {
             throw new NotImplementedException();
         }
