@@ -9,30 +9,29 @@ using System.Text;
 
 namespace Business.Concrete
 {
-    public class ColorManager : IColorService
+    public class CustomerManager : ICustomerService
     {
-        IColorDal _colorDal;
-        public ColorManager(IColorDal colorDal)
+        ICustomerDal _customerDal;
+        public CustomerManager(ICustomerDal customerDal )
         {
-            _colorDal = colorDal;
+            _customerDal = customerDal;
         }
-
-        public IResult Add(Color color)
-        {
-            return new SuccessResult(Messages.Success);
-        }
-
-        public IResult Delete(Color color)
+        public IResult Add(Customer customer)
         {
             return new SuccessResult(Messages.Success);
         }
 
-        public IDataResult<List<Color>> GetAll()
+        public IResult Delete(Customer customer)
         {
-            return new SuccessDataResult<List<Color>>(_colorDal.GetAll(), Messages.Success);
+            return new SuccessResult(Messages.Success);
         }
 
-        public IResult Update(Color color)
+        public IDataResult<List<Customer>> GetAll()
+        {
+            return new SuccessDataResult<List<Customer>>(_customerDal.GetAll(), Messages.Success);
+        }
+
+        public IResult Update(Customer customer)
         {
             return new SuccessResult(Messages.Success);
         }

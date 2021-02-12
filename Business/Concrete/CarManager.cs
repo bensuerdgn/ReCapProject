@@ -22,18 +22,23 @@ namespace Business.Concrete
         {
             if (car.DailyPrice < 100)
             {
-                return new ErrorResult(Messages.CarError);
+                return new ErrorResult(Messages.Error);
             }
-            return new SuccessResult(Messages.CarSuccess);
+            return new SuccessResult(Messages.Success);
+        }
+
+        public IResult Delete(Car car)
+        {
+            return new SuccessResult(Messages.Success);
         }
 
         public IDataResult<List<Car>> GetAll()
         {
             if (DateTime.Now.Hour == 22)
             {
-                return new ErrorDataResult<List<Car>>(Messages.CarError);
+                return new ErrorDataResult<List<Car>>(Messages.Error);
             }
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.CarSuccess);
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.Success);
         }
 
         public IDataResult<Car> GetById(int id)
@@ -45,7 +50,7 @@ namespace Business.Concrete
         {
             if (DateTime.Now.Hour == 23)
             {
-                return new ErrorDataResult<List<CarDetailDto>>(Messages.CarError);
+                return new ErrorDataResult<List<CarDetailDto>>(Messages.Error);
             }
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails());
 
@@ -59,6 +64,11 @@ namespace Business.Concrete
         public IDataResult<List<Car>> GetCarsByColorId(int id)
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == id));
+        }
+
+        public IResult Update(Car car)
+        {
+            return new SuccessResult(Messages.Success);
         }
     }
 }

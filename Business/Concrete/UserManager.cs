@@ -9,30 +9,30 @@ using System.Text;
 
 namespace Business.Concrete
 {
-    public class ColorManager : IColorService
+    public class UserManager : IUserService
     {
-        IColorDal _colorDal;
-        public ColorManager(IColorDal colorDal)
+        IUserDal _userDal;
+        public UserManager(IUserDal userDal)
         {
-            _colorDal = colorDal;
+            _userDal = userDal;
         }
 
-        public IResult Add(Color color)
-        {
-            return new SuccessResult(Messages.Success);
-        }
-
-        public IResult Delete(Color color)
+        public IResult Add(User user)
         {
             return new SuccessResult(Messages.Success);
         }
 
-        public IDataResult<List<Color>> GetAll()
+        public IResult Delete(User user)
         {
-            return new SuccessDataResult<List<Color>>(_colorDal.GetAll(), Messages.Success);
+            return new SuccessResult(Messages.Success);
         }
 
-        public IResult Update(Color color)
+        public IDataResult<List<User>> GetAll()
+        {
+            return new SuccessDataResult<List<User>>(_userDal.GetAll(), Messages.Success);
+        }
+
+        public IResult Update(User user)
         {
             return new SuccessResult(Messages.Success);
         }
