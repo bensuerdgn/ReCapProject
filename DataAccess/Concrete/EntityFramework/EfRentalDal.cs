@@ -4,6 +4,7 @@ using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DataAccess.Concrete.EntityFramework
@@ -24,12 +25,10 @@ namespace DataAccess.Concrete.EntityFramework
                              select new RentalDetailDto
                              {
                                  Id = r.Id,
-                                 CarName = ca.Name,
-                                 CustomerName = cu.CompanyName,
-                                 CarId = ca.Id,
-                                 RentDate = r.RentDate,
-                                 ReturnDate = r.ReturnDate,
-                                 UserName = u.FirstName + " " + u.LastName
+                                 CompanyName= cu.CompanyName,
+                                 FirstName=u.FirstName,
+                                 LastName=u.LastName
+
                              };
 
                 return result.ToList();
