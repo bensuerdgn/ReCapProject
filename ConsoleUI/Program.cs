@@ -10,9 +10,16 @@ namespace ConsoleUI
         static void Main(string[] args)
         {
             //test();
+            //test2();
+            CarManager carManager = new CarManager(new EfCarDal());
+            carManager.GetAll();
+        }
+
+        private static void test2()
+        {
             CarManager carManager = new CarManager(new EfCarDal());
             var result = carManager.GetCarDetails();
-            if (result.Success==true)
+            if (result.Success == true)
             {
                 foreach (var car in result.Data)
                 {
@@ -23,7 +30,6 @@ namespace ConsoleUI
             {
                 Console.WriteLine(result.Message);
             }
-
         }
 
         private static void test()
