@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Business.Constants
@@ -8,6 +9,6 @@ namespace Business.Constants
     {
         public static string Success = "başarılı";
         public static string Error = "hatalı";
-
+        public static string AuthorizationDenied = "Yetkiniz yok.";
     }
 }
