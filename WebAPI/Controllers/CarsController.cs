@@ -59,6 +59,34 @@ namespace WebAPI.Controllers
                 return BadRequest(result);
             }
         }
+        [HttpGet("getbybrand")]
+        public IActionResult GetCarsByBrandId(int brandId)
+        {
+            var result = _carService.GetCarsByBrandId(brandId);
+
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(result);
+            }
+        }
+        [HttpGet("getbycolor")]
+        public IActionResult GetCarsByColorId(int colorId)
+        {
+            var result = _carService.GetCarsByColorId(colorId);
+
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(result);
+            }
+        }
         [HttpPost("add")]
         public IActionResult Add(Car car)
         {
@@ -90,6 +118,37 @@ namespace WebAPI.Controllers
                 return Ok(result);
             }
 
+            return BadRequest(result);
+        }
+        [HttpGet("getcardetailsbycarid")]
+        public IActionResult GetCarsDetailsByCarId(int id)
+        {
+            var result = _carService.GetCarDetailsByCarId(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getcardetailsbybrandid")]
+        public IActionResult GetCarDetailsByBrandId(int id)
+        {
+            var result = _carService.GetCarDetailsByBrandId(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+        [HttpGet("getcardetailsbycolorid")]
+        public IActionResult GetCarDetailsByColorId(int id)
+        {
+            var result = _carService.GetCarDetailsByColorId(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
             return BadRequest(result);
         }
     }

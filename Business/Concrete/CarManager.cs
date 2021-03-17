@@ -12,6 +12,7 @@ using Entities.DTOs;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Business.Concrete
@@ -19,16 +20,21 @@ namespace Business.Concrete
     public class CarManager : ICarService
     {
         ICarDal _carDal;
-        public CarManager(ICarDal carDal)
+        IBrandDal _brandDal;
+        IColorDal _colorDal;
+
+        public CarManager(ICarDal carDal, IBrandDal brandDal, IColorDal colorDal)
         {
             _carDal = carDal;
+            _brandDal = brandDal;
+            _colorDal = colorDal;
         }
 
-       // [SecuredOperation("car.add,admin")]
+        // [SecuredOperation("car.add,admin")]
         [ValidationAspect(typeof(CarValidator))]
         [CacheRemoveAspect("ICarService.Get")]
         public IResult Add(Car car)
-        {   
+        {
             _carDal.Add(car);
             return new SuccessResult(Messages.Success);
         }
@@ -57,22 +63,17 @@ namespace Business.Concrete
 
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            if (DateTime.Now.Hour == 3)
-            {
-                return new ErrorDataResult<List<CarDetailDto>>(Messages.Error);
-            }
-            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(),Messages.Success);
-
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(), Messages.Success);
         }
 
         public IDataResult<List<Car>> GetCarsByBrandId(int id)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == id));
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == id), Messages.Success);
         }
 
         public IDataResult<List<Car>> GetCarsByColorId(int id)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == id));
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == id), Messages.Success);
         }
 
         [ValidationAspect(typeof(CarValidator))]
@@ -85,6 +86,21 @@ namespace Business.Concrete
         public IResult AddTransactionalTest(Car car)
         {
             throw new NotImplementedException();
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByCarId(int id)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails().Where(p => p.CarId == id).ToList(), Messages.Success);
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByBrandId(int id)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails().Where(p => p.BrandName == _brandDal.Get(t => t.Id == id).BrandName).ToList(), Messages.Success);
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByColorId(int id)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails().Where(p => p.ColorName == _colorDal.Get(t => t.Id == id).ColorName).ToList(), Messages.Success);
         }
     }
 }
