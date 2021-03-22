@@ -44,7 +44,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getimagesbycarid")]
-        public IActionResult GetImagesById([FromForm(Name = ("CarId"))] int carId)
+        public IActionResult GetImagesByCarId(int carId)
         {
             var result = _carImageService.GetImagesByCarId(carId);
             if (result.Success)
@@ -56,7 +56,7 @@ namespace WebAPI.Controllers
 
         [HttpPost("add")]
         public IActionResult AddAsync([FromForm(Name = ("Image"))] IFormFile file, [FromForm] CarImage carImage)
-        { 
+        {
             var result = _carImageService.Add(file, carImage);
 
             if (result.Success)

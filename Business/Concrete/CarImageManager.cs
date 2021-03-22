@@ -24,7 +24,7 @@ namespace Business.Concrete
             _carImageDal = carImageDal;
         }
 
-        [ValidationAspect(typeof(CarImageValidator))]
+      //  [ValidationAspect(typeof(CarImageValidator))]
         public IResult Add(IFormFile file, CarImage carImage)
         {
             IResult result = BusinessRules.Run(CheckIfImageLimit(carImage.CarId));
@@ -67,14 +67,14 @@ namespace Business.Concrete
 
         public IDataResult<List<CarImage>> GetImagesByCarId(int id)
         {
-            IResult result = BusinessRules.Run(CheckIfCarImageNull(id));
-
-            if (result != null)
+            var result = _carImageDal.GetAll(c => c.CarId == id).Any();
+            if (!result)
             {
-                return new ErrorDataResult<List<CarImage>>(result.Message);
+                List<CarImage> carimage = new List<CarImage>();
+                carimage.Add(new CarImage { CarId = id, ImagePath = @"\Images\defaultCarImage.jpg" });
+                return new SuccessDataResult<List<CarImage>>(carimage);
             }
-
-            return new SuccessDataResult<List<CarImage>>(CheckIfCarImageNull(id).Data);
+            return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll(p => p.CarId == id),Messages.Success);
         }
 
         public IResult Update(IFormFile file, CarImage carImage)
@@ -103,7 +103,7 @@ namespace Business.Concrete
                 return new ErrorDataResult<List<CarImage>>(exception.Message);
             }
 
-            return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll(p => p.CarId == id).ToList());
+            return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll(p => p.CarId == id).ToList(),Messages.Success);
         }
 
         private IResult CheckIfImageLimit(int carId)
@@ -113,7 +113,7 @@ namespace Business.Concrete
             {
                 return new ErrorResult();
             }
-            return new SuccessResult();
+            return new SuccessResult(Messages.Success);
         }
     }
 }
